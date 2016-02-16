@@ -12,4 +12,8 @@ window.maidsafeDemo.config(function($stateProvider, $urlRouterProvider) {
       url: '/manage_public_id',
       templateUrl: 'views/manage_public_id.html'
     })
+  .state('manageService', {
+      url: '/manage_service',
+      templateUrl: 'views/manage_service.html'
+    })
 });
