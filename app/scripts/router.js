@@ -1,19 +1,15 @@
 /**
  * Router
  */
-window.safeLauncher.config(function($stateProvider, $urlRouterProvider) {
-  $urlRouterProvider.otherwise('login');
+window.maidsafeDemo.config(function($stateProvider, $urlRouterProvider) {
+  $urlRouterProvider.otherwise('/');
   $stateProvider
-  .state('login', {
-      url: '/login',
-      templateUrl: 'views/auth/login.html'
+  .state('/', {
+      url: '/',
+      templateUrl: 'views/landing.html'
     })
-  .state('register', {
-    url: '/register',
-    templateUrl: 'views/auth/register.html'
-  })
-  .state('user', {
-    url: '/user',
-    templateUrl: 'views/user/base.html'
-  });
+  .state('publicID', {
+      url: '/manage_public_id',
+      templateUrl: 'views/manage_public_id.html'
+    })
 });

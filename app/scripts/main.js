@@ -5,8 +5,8 @@
  *
  * Main module of the application.
  */
-window.safeLauncher = angular
-  .module('safeLauncher', [ 'ui.router' ])
+window.maidsafeDemo = angular
+  .module('maidsafeDemo', [ 'ui.router' ])
   .config([ '$httpProvider', function($httpProvider) {
     $httpProvider.defaults.useXDomain = true;
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
@@ -15,5 +15,4 @@ window.safeLauncher = angular
 .run([ '$rootScope', '$state', '$stateParams', function($rootScope, $state, $stateParams) {
   $rootScope.$state = $state;
   $rootScope.$stateParams = $stateParams;
-  $rootScope.$loader = false;
 } ]);
