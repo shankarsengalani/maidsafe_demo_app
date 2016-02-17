@@ -16,4 +16,12 @@ window.maidsafeDemo.config(function($stateProvider, $urlRouterProvider) {
       url: '/manage_service',
       templateUrl: 'views/manage_service.html'
     })
+  .state('createService', {
+      url: '/create_service',
+      templateUrl: 'views/create_service.html'
+    })
+  .state('serviceAddFiles', {
+      url: '/service_add_files',
+      templateUrl: 'views/service_add_files.html'
+    })
 });
