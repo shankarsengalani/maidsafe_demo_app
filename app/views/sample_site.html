@@ -1,0 +1,20 @@
+<div class="ms-frame" ng-controller="SampleSiteCtrl" ng-init="editTitle = false; editDesc = false;" ng-click="editTitle = false; editDesc = false;">
+  <div class="ms-sample-template">
+    <div class="sample-template-toolbar">
+      <div class="sample-template-toolbar-i">
+        <button type="button" class="ms-btn ms-primary-btn" name="publish" ng-click="publish()">Publish</button>
+      </div>
+    </div>
+    <div class="sample-template-bnr">
+      <span class="bnr-bg"><img src="./images/template_bg.jpg" alt="" /></span>
+      <div class="site-title edit-ctx" ng-class="{ open: editTitle }">
+        <input type="text" name="name" class="editable" value="" placeholder="Site Title" ng-model="siteTitle" ng-click="$event.stopPropagation();">
+        <h3 class="site-title-ctx non-editable" ng-click="$event.stopPropagation(); editTitle = true; editDesc = false;" ng-bind="siteTitle"></h3>
+      </div>
+    </div>
+    <div class="sample-template-ctx edit-ctx" ng-class="{ open: editDesc }">
+      <input type="text" name="name" class="editable" value="" placeholder="Site Description" ng-model="siteDesc" ng-click="$event.stopPropagation();">
+      <p class="site-desc-ctx non-editable" ng-click="$event.stopPropagation(); editDesc = true; editTitle = false;" ng-bind="siteDesc"></p>
+    </div>
+  </div>
+</div>
