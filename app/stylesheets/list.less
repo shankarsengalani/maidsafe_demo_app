@@ -27,3 +27,49 @@
     }
   }
 }
+
+.ms-list-2 {
+  .ms-list-2-h {
+    &:hover {
+      background-color: white !important;
+    }
+     > .ms-list-2-i-ctx {
+       font-size: 14px;
+       font-weight: 600 !important;
+       cursor: pointer !important;
+       &:hover {
+         background-color: @gray-200;
+       }
+     }
+  }
+  .ms-list-2-i {
+    cursor: pointer;
+    &:hover {
+      background-color: @blue-100;
+    }
+    > .ms-list-2-i-ctx {
+      display: inline-block;
+      float: left;
+      line-height: 36px;
+      padding: 0 8px;
+      font-size: 14px;
+      font-weight: normal;
+    }
+    > .icn {
+      width: 5%;
+    }
+    > .name {
+      width: 40%;
+    }
+    > .date {
+      width: 30%;
+    }
+    > .type {
+      width: 10%;
+    }
+    > .size {
+      width: 15%;
+    }
+    .clearfix();
+  }
+}
