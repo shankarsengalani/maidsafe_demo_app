@@ -40,5 +40,35 @@ window.maidsafeDemo.factory('nfsFactory', [ function(Shared) {
     };
     (new this.Request(payload, callback)).send();
   };
+
+  self.createFile = function(filePath, metadata, isPathShared, callback) {
+    var url = this.SERVER + 'nfs/file';
+    var payload = {
+      url: url,
+      method: 'POST',
+      headers: {
+        authorization: 'Bearer ' + this.authToken
+      },
+      data: {
+        filePath: filePath,
+        metadata: metadata,
+        isPathShared: isPathShared
+      }
+    };
+    (new this.Request(payload, callback)).send();
+  };
+
+  self.modifyFileContent = function(filePath, isPathShared, dataAsUint, offset, callback) {
+    offset = offset || 0;
+    var payload = {
+      url: this.SERVER + 'nfs/file/' + encodeURIComponent(filePath) + '/' + isPathShared + '?offset=' + offset,
+      method: 'POST',
+      headers: {
+        authorization: 'Bearer ' + this.authToken
+      },
+      data: dataAsUint
+    };
+    (new this.Request(payload, callback)).send();
+  };
   return self;
 } ]);

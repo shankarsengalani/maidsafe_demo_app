@@ -2,3 +2,6 @@
 // import os from 'os'; // native node.js module
 import { remote } from 'electron'; // native electron module
 // import jetpack from 'fs-jetpack'; // module loaded from npm
+import { upload } from './scripts/services/uploader';
+
+window.upload = upload;

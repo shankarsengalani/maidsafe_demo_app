@@ -41,7 +41,7 @@ window.maidsafeDemo.factory('dnsFactory', [ function(Shared) {
   };
 
   // add service
-  self.addServices = function(longName, serviceName, isPathShared, serviceHomeDirPath, callback) {
+  self.addService = function(longName, serviceName, isPathShared, serviceHomeDirPath, callback) {
     var payload = {
       url: this.SERVER + 'dns',
       method: 'PUT',

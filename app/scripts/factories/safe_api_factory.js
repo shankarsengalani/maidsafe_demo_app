@@ -27,8 +27,12 @@ window.maidsafeDemo.factory('safeApiFactory', [ '$http', '$q', 'nfsFactory', 'dn
           payload.url += '?' + sodium.crypto_secretbox_easy(query[1], symmetricKeys.nonce, symmetricKeys.key);
         }
         if (payload.data) {
-          var data = new Uint8Array(new Buffer(JSON.stringify(payload.data)));
-          payload.data = new Buffer(sodium.crypto_secretbox_easy(data, symmetricKeys.nonce, symmetricKeys.key)).toString('base64');
+          if (typeof payload.data === 'string') {
+            var data = new Uint8Array(new Buffer(JSON.stringify(payload.data)));
+            payload.data = new Buffer(sodium.crypto_secretbox_easy(data, symmetricKeys.nonce, symmetricKeys.key)).toString('base64');
+          } else {
+            payload.data = new Buffer(sodium.crypto_secretbox_easy(data, symmetricKeys.nonce, symmetricKeys.key)).toString('base64');
+          }
         }
         return payload;
       } catch(e) {
@@ -40,8 +44,12 @@ window.maidsafeDemo.factory('safeApiFactory', [ '$http', '$q', 'nfsFactory', 'dn
         return body;
       }
       try {
-        var data = sodium.crypto_secretbox_open_easy(new Uint8Array(new Buffer(body, 'base64')), symmetricKeys.nonce, symmetricKeys.key);
-        return new Buffer(data).toString();
+        var data = body;
+        try {
+            data = sodium.crypto_secretbox_open_easy(new Uint8Array(new Buffer(body, 'base64')), symmetricKeys.nonce, symmetricKeys.key);
+            data = new Buffer(data).toString();
+        } catch(e) {}
+        return data;
       } catch(e) {
         return callback(e);
       }
@@ -87,8 +95,8 @@ window.maidsafeDemo.factory('safeApiFactory', [ '$http', '$q', 'nfsFactory', 'dn
       method: 'POST',
       data: {
         app: {
-          name: 'Test tool',
-          id: 'maidsafe.net.test',
+          name: 'Maidsafe Demo',
+          id: 'demo.maidsafe.net',
           version: '0.0.1',
           vendor: 'MaidSafe'
         },

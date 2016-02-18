@@ -20,7 +20,8 @@
         Browse through your files to add to your site.
       </div>
       <div class="content-1 text-center">
-        <button type="button" class="ms-btn ms-primary-btn" name="browseFile">Browse</button>
+        <button type="button" class="ms-btn ms-primary-btn" name="browseFile"
+          ng-click="$state.go('serviceExplorer', {serviceName: $state.params.serviceName})">Browse</button>
       </div>
     </div>
     <div class="or-comp-or">OR</div>

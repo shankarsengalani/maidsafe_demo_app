@@ -14,8 +14,8 @@ let computeDirectorySize = function(localPath) {
   let stat;
   let tempPath;
   let contents = fs.readdirSync(localPath);
-  for i in contents {
-    tempPath = localPath + contents[i];
+  for (var i in contents) {
+    tempPath = localPath + '/' + contents[i];
     stat = fs.statSync(tempPath);
     if (stat.isDirectory()) {
       size += computeDirectorySize(tempPath);
@@ -27,7 +27,7 @@ let computeDirectorySize = function(localPath) {
 };
 
 
-let updateProgressOnFailure = fuction(size, path) {
+let updateProgressOnFailure = function(size, path) {
   progress.failed += size;
   progress.failedFiles.push(localPath);
   progress.onUpdate();
@@ -35,7 +35,7 @@ let updateProgressOnFailure = fuction(size, path) {
 
 let FileCreationHanlder = function(fileName, localPath, networkParentDirPath) {
   let size = fs.statSync(localPath).size;
-  let ContentUpdated(size) {
+  let ContentUpdated = function(size) {
     this.onResponse = function(err) {
       if (err) {
         console.error(err);
@@ -52,17 +52,20 @@ let FileCreationHanlder = function(fileName, localPath, networkParentDirPath) {
       console.error(err);
       return updateProgressOnFailure(size, localPath);
     }
-    api.nfs.updateFileContent(networkParentDirPath + '/' + fileName,
-      fs.readFileSync(localPath), 0, new ContentUpdated(size));
+    api.nfs.updateFileContent(networkParentDirPath + '/' + fileName, false,
+      new Uint8Array(fs.readFileSync(localPath)), 0, new ContentUpdated(size));
+    console.log('updating content', networkParentDirPath + '/' + fileName);
+    new ContentUpdated(size)();
   };
 
   return this.onResponse;
 };
 
 let uploadFile = function(localPath, networkParentDirPath) {
-  let fileName = fs.basename(localPath);
+  let fileName = path.basename(localPath);
   let hanlder = new FileCreationHanlder(fileName, localPath, networkParentDirPath);
-  api.nfs.createFile(networkParentDirPath + '/' + fileName, '', hanlder);
+  console.log('Creating file', networkParentDirPath + '/' + fileName);
+  api.createFile(networkParentDirPath + '/' + fileName, '', false, hanlder);
 };
 
 let DirectoryCreationHanler = function(isPrivate, localPath, networkParentDirPath) {
@@ -74,8 +77,8 @@ let DirectoryCreationHanler = function(isPrivate, localPath, networkParentDirPat
     let stat;
     let tempPath;
     let contents = fs.readdirSync(localPath);
-    for i in contents {
-      tempPath = localPath + contents[i];
+    for (var i in contents) {
+      tempPath = localPath + '/' + contents[i];
       stat = fs.statSync(tempPath);
       if (stat.isDirectory()) {
         uploadDirectory(isPrivate, tempPath, networkParentDirPath);
@@ -84,20 +87,21 @@ let DirectoryCreationHanler = function(isPrivate, localPath, networkParentDirPat
       }
     }
   };
-  this.onResponse;
+  return this.onResponse;
 };
 
 let uploadDirectory = function(isPrivate, localPath, networkParentDirPath) {
-  networkParentDirPath += ('/' + fs.basename(localPath));
-  let hanlder = new DirectoryCreationHanler(isPrivate, localPath, networkParentDirPath)
-  api.nfs.createDirectory(networkParentDirPath, null, false, isPrivate, hanlder);
+  networkParentDirPath += ('/' + path.basename(localPath));
+  let hanlder = new DirectoryCreationHanler(isPrivate, localPath, networkParentDirPath);
+  console.log('Dir ::', localPath, networkParentDirPath);
+  api.createDir(networkParentDirPath, isPrivate, null, false, false, hanlder);
 };
 
 export var upload = function(localPath, isPrivate, folderPath) {
   let stat = fs.statSync(localPath);
   if (stat.isDirectory()) {
     progress.total = computeDirectorySize(localPath);
-    uploadDirectory(isPrivate, localPath, folderPath || path.basename(localPath));
+    uploadDirectory(isPrivate, localPath, folderPath || '');
   } else {
     progress.total = stat.size;
     uploadFile(localPath, folderPath || path.dirname(localPath));

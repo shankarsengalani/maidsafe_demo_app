@@ -1,0 +1,38 @@
+<div class="ms-explr">
+  <div class="ms-explr-h">
+    <div class="ms-explr-h-lt">
+      <button type="button" class="ms-btn" name="goBack">B</button>
+      <button type="button" class="ms-btn" name="goForward">F</button>
+      <button type="button" class="ms-btn" name="goStepBack">SB</button>
+    </div>
+    <div class="ms-explr-h-addrbar">
+      <input type="text" name="addrBar" value="">
+    </div>
+    <div class="ms-explr-h-rt">
+      <button type="button" class="ms-btn" name="upload" ng-click="upload()">+</button>
+      <button type="button" class="ms-btn" name="goBack">R</button>
+      <button type="button" class="ms-btn" name="goBack">D</button>
+    </div>
+  </div>
+  <div class="ms-explr-cont">
+    <div class="ms-list-2">
+      <div class="ms-list-2-i ms-list-2-h">
+        <div class="ms-list-2-i-ctx icn">&nbsp;</div>
+        <div class="ms-list-2-i-ctx name">Name</div>
+        <div class="ms-list-2-i-ctx date">Date</div>
+        <div class="ms-list-2-i-ctx type">Type</div>
+        <div class="ms-list-2-i-ctx size">Size</div>
+      </div>
+      <div class="ms-list-2-i" ng-repeat='dir in dir.subDirectories'>
+        <div class="ms-list-2-i-ctx icn">&nbsp;</div>
+        <div class="ms-list-2-i-ctx name">{{ dir.name }}</div>
+        <div class="ms-list-2-i-ctx date">{{ data | dir.createdOn }}</div>
+        <div class="ms-list-2-i-ctx type">&nbsp</div>
+        <div class="ms-list-2-i-ctx size">&nbsp</div>
+      </div>
+      <div class="ms-list-2-i" ng-show='isDirectoryEmpty()'>
+        <div class="ms-list-2-i-ctx icn">Empty</div>
+      </div>
+    </div>
+  </div>
+</div>
