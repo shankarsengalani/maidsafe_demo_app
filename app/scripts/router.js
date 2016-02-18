@@ -2,11 +2,15 @@
  * Router
  */
 window.maidsafeDemo.config(function($stateProvider, $urlRouterProvider) {
-  $urlRouterProvider.otherwise('/');
+  $urlRouterProvider.otherwise('authorise');
   $stateProvider
-  .state('/', {
-      url: '/',
-      templateUrl: 'views/landing.html'
+  .state('authorise', {
+      url: '/authorise',
+      templateUrl: 'views/authorisation.html'
+    })
+  .state('home', {
+      url: '/home',
+      templateUrl: 'views/home.html'
     })
   .state('publicID', {
       url: '/manage_public_id',
