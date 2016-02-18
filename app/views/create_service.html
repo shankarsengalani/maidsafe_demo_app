@@ -15,10 +15,10 @@
     </p>
   </div><!-- /content 1 -->
   <!-- create service form -->
-  <div class="ms-form">
-    <form name="createService">
+  <div class="ms-form" ng-controller="ServiceCtrl">
+    <form name="create_service" ng-submit="createService()">
       <div class="form-grp lgt">
-        <input type="text" name="service" required="required" placeholder="Service">
+        <input type="text" name="service" required="required" placeholder="Service" ng-model="serviceName">
       </div>
       <div class="form-grp-btn">
         <button type="submit" class="ms-btn ms-primary-btn" name="submitService">Next</button>
