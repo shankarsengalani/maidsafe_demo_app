@@ -2,7 +2,7 @@
   <!-- header -->
   <div class="frame-h">
     <div class="frame-h-act">
-      <a ui-sref="/" class="frame-h-act-btn">&lt;</a>
+      <a ui-sref="home" class="frame-h-act-btn">&lt;</a>
     </div>
     <h3 class="frame-h-ctx">Manage Public ID</h3>
   </div><!-- /header -->
@@ -15,15 +15,17 @@
       - Pick a good one ;)
     </p>
   </div><!-- /content 1 -->
+
   <!-- create public ID form -->
-  <div class="ms-form">
-    <form name="createPublicID">
+  <div class="ms-form" ng-controller="PublicIdCtrl">
+    <form name="createPublicID" ng-submit="createPublicId()">
       <div class="form-grp drk">
-        <input type="text" name="publicID" required="required" placeholder="Public ID">
+        <input type="text" name="publicID" required="required" placeholder="Public ID" ng-model="publicId">
       </div>
       <div class="form-grp-btn">
         <button type="submit" class="ms-btn ms-primary-btn" name="submitPublicID">Done</button>
       </div>
     </form>
   </div><!-- create public ID form -->
+
 </div>
