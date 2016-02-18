@@ -12,14 +12,15 @@ window.maidsafeDemo.directive('explorer', ['safeApiFactory', function(safeApi) {
           return console.error(err);
         }
         $scope.dir = dir;
-        $scope.$apply();
+        // $scope.$apply();
       };
       safeApi.getDir(onResponse, $scope.currentFolder +
         ($scope.selectedDir ? ('/' + $scope.selectedDir) : ''), false);
     };
 
     $scope.upload = function(path) {
-      window.upload(path || 'C:\\Users\\Krishna\\Desktop\\Test_REC', $scope.isPrivate);
+      var uploader = new window.Uploader(safeApi);
+      uploader.upload(path || 'C:\\Users\\Krishna\\Desktop\\Test_REC', $scope.isPrivate, '/private');
     };
 
     $scope.isDirectoryEmpty = function() {

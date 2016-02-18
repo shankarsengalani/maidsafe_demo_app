@@ -24,15 +24,16 @@ window.maidsafeDemo.factory('safeApiFactory', [ '$http', '$q', 'nfsFactory', 'dn
         // TODO query params decryption
         var query = payload.url.split('?');
         if (query[1]) {
-          payload.url += '?' + sodium.crypto_secretbox_easy(query[1], symmetricKeys.nonce, symmetricKeys.key);
+          var encryptedQuery = new Buffer(sodium.crypto_secretbox_easy(query[1],
+            symmetricKeys.nonce, symmetricKeys.key)).toString('base64');
+          payload.url = query[0] + '?' + encryptedQuery;
         }
         if (payload.data) {
-          if (typeof payload.data === 'string') {
-            var data = new Uint8Array(new Buffer(JSON.stringify(payload.data)));
-            payload.data = new Buffer(sodium.crypto_secretbox_easy(data, symmetricKeys.nonce, symmetricKeys.key)).toString('base64');
-          } else {
-            payload.data = new Buffer(sodium.crypto_secretbox_easy(data, symmetricKeys.nonce, symmetricKeys.key)).toString('base64');
+          var data = payload.data;
+          if (!(data instanceof Uint8Array)) {
+            data = new Uint8Array(new Buffer(JSON.stringify(data)));
           }
+          payload.data = new Buffer(sodium.crypto_secretbox_easy(data, symmetricKeys.nonce, symmetricKeys.key)).toString('base64');
         }
         return payload;
       } catch(e) {
