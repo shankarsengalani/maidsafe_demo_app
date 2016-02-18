@@ -62,7 +62,7 @@ window.maidsafeDemo.factory('nfsFactory', [ function(Shared) {
     offset = offset || 0;
     var payload = {
       url: this.SERVER + 'nfs/file/' + encodeURIComponent(filePath) + '/' + isPathShared + '?offset=' + offset,
-      method: 'POST',
+      method: 'PUT',
       headers: {
         authorization: 'Bearer ' + this.authToken
       },
