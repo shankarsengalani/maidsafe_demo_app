@@ -1,7 +1,7 @@
 /**
  * Sample site controller
  */
-window.maidsafeDemo.controller('SampleSiteCtrl', [ '$scope', 'safeApiFactory', function($scope, safe) {
+window.maidsafeDemo.controller('SampleTemplateCtrl', [ '$scope', 'safeApiFactory', function($scope, safe) {
   'use strict';
   $scope.siteTitle = 'My Page';
   $scope.siteDesc = 'This page is created and published on the SAFE Network using the SAFE Uploader';

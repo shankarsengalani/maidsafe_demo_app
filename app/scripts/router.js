@@ -32,8 +32,8 @@ window.maidsafeDemo.config(function($stateProvider, $urlRouterProvider) {
       url: '/service_explorer/:serviceName',
       templateUrl: 'views/service_explorer.html'
     })
-  .state('sampleSite', {
-      url: '/sample_site/:serviceName',
-      templateUrl: 'views/sample_site.html'
+  .state('sampleTemplate', {
+      url: '/sample_template/:serviceName',
+      templateUrl: 'views/sample_template.html'
     })
 });
