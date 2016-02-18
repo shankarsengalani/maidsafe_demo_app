@@ -41,6 +41,29 @@ window.maidsafeDemo.factory('nfsFactory', [ function(Shared) {
     (new this.Request(payload, callback)).send();
   };
 
+  self.deleteDirectory = function(dirPath, isPathShared, callback) {
+    var url = this.SERVER + 'nfs/directory/' + encodeURIComponent(dirPath) + '/' + (isPathShared || false);
+    var payload = {
+      url: url,
+      method: 'DELETE',
+      headers: {
+        authorization: 'Bearer ' + this.authToken
+      }
+    };
+    (new this.Request(payload, callback)).send();
+  };
+
+  self.deleteFile = function(filePath, isPathShared, callback) {
+    var payload = {
+      url: this.SERVER + 'nfs/file/' + encodeURIComponent(filePath) + '/' + (isPathShared || false),
+      method: 'DELETE',
+      headers: {
+        authorization: 'Bearer ' + this.authToken
+      }
+    };
+    (new this.Request(payload, callback)).send();
+  };
+
   self.createFile = function(filePath, metadata, isPathShared, callback) {
     var url = this.SERVER + 'nfs/file';
     var payload = {

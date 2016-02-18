@@ -3,8 +3,9 @@ window.maidsafeDemo.directive('explorer', ['safeApiFactory', function(safeApi) {
   var Explorer = function($scope, element, attrs) {
     var rootFolder = '/' + ($scope.isPrivate ? 'private' : 'public');
     $scope.currentDirectory = rootFolder;
-    $scope.selectedDir = null;
+    $scope.selectedPath = null;
     $scope.dir = null;
+    $scope.isFileSelected;
 
     var getDirectory = function() {
       var onResponse = function(err, dir) {
@@ -33,19 +34,32 @@ window.maidsafeDemo.directive('explorer', ['safeApiFactory', function(safeApi) {
       });
     };
 
+    $scope.delete = function() {      
+      var path = $scope.currentDirectory + '/' + $scope.selectedPath;
+      var onDelete = function(err) {
+        console.log('deleted', err);
+      };
+      if ($scope.isFileSelected) {
+        safeApi.deleteFile(path, false, onDelete)
+      } else {
+        safeApi.deleteDirectory(path, false, onDelete)
+      }
+    };
+
     $scope.openDirectory = function(directoryName) {
-      $scope.selectedDir = directoryName;
-      $scope.currentDirectory += ('/' + $scope.selectedDir);
+      $scope.selectedPath = directoryName;
+      $scope.currentDirectory += ('/' + $scope.selectedPath);
       getDirectory();
     };
 
-    $scope.directorySelect = function(directoryName) {
-      $scope.selectedDir = directoryName;
-      if (!$scope.onDirectorySelected) {
+    $scope.select = function(name, isFile) {
+      $scope.isFileSelected = isFile;
+      $scope.selectedPath = name;
+      if (isFile || !$scope.onDirectorySelected) {
         return;
       }
       $scope.onDirectorySelected({
-        name: $scope.currentDirectory + '/' + $scope.selectedDir
+        name: $scope.currentDirectory + '/' + $scope.selectedPath
       });
     };
 
@@ -57,7 +71,7 @@ window.maidsafeDemo.directive('explorer', ['safeApiFactory', function(safeApi) {
         return;
       }
       $scope.currentDirectory = path;
-      $scope.selectedDir = null;
+      $scope.selectedPath = null;
       getDirectory();
     };
 
