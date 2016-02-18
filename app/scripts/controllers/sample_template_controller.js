@@ -21,4 +21,9 @@ window.maidsafeDemo.controller('SampleTemplateCtrl', [ '$scope', '$http', 'safeA
     writeFile($scope.siteTitle, $scope.siteDesc, filePath);
   };
 
+  $scope.handleInputClick = function(e) {
+    e.stopPropagation();
+    e.target.select();
+  }
+
 } ]);
