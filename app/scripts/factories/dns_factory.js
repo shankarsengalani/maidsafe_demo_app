@@ -28,5 +28,16 @@ window.maidsafeDemo.factory('dnsFactory', [ function(Shared) {
     (new this.Request(payload, callback)).send();
   };
 
+  self.getServices = function(longName, callback) {
+    var payload = {
+      url: this.SERVER + 'dns/' + longName,
+      method: 'GET',
+      headers: {
+        authorization: 'Bearer ' + this.authToken
+      }
+    };
+    (new this.Request(payload, callback)).send();
+  };
+
   return self;
 } ]);
