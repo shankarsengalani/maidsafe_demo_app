@@ -14,27 +14,21 @@
       There is no limit to how many you can create but they must all be unique within your id.
     </p>
   </div><!-- /content 1 -->
-  <div class="ms-list-1">
-    <div class="ms-list-1-i">
-      <div class="ms-list-1-i-ctx">
-        www.publicid.safenet
-      </div>
-      <div class="ms-list-1-i-act">
-        <a href="#">Edit Files</a>
-        <a href="#">Visit Site</a>
-      </div>
-    </div>
-    <div class="ms-list-1-i">
-      <div class="ms-list-1-i-ctx">
-        blog.publicid.safenet
-      </div>
-      <div class="ms-list-1-i-act">
-        <a href="#">Edit Files</a>
-        <a href="#">Visit Site</a>
+  <div ng-controller="ServiceCtrl" ng-init="init()">
+    <h3 class="heading-1" ng-show="serviceList.length === 0">No service registered</h3>
+    <div class="ms-list-1" ng-show="serviceList.length > 0">
+      <div class="ms-list-1-i" ng-repeat="service in serviceList">
+        <div class="ms-list-1-i-ctx">
+          {{ service.name + '.' + service.longName + '.safenet' }}
+        </div>
+        <div class="ms-list-1-i-act">
+          <a href="#">Edit Files</a>
+          <a href="#">Visit Site</a>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="container-1 text-center">
-    <a ui-sref="createService" class="ms-btn ms-primary-btn">Create New</a>
+    <div class="container-1 text-center">
+      <a ui-sref="createService" class="ms-btn ms-primary-btn">Create New</a>
+    </div>
   </div>
 </div>
