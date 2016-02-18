@@ -1,12 +1,12 @@
 <div class="ms-explr">
   <div class="ms-explr-h">
     <div class="ms-explr-h-lt">
-      <button type="button" class="ms-btn" name="goBack">B</button>
-      <button type="button" class="ms-btn" name="goForward">F</button>
-      <button type="button" class="ms-btn" name="goStepBack">SB</button>
+      <button type="button" class="ms-btn" name="goBack" ng-click="back()">B</button>
+      <!-- <button type="button" class="ms-btn" name="goForward">F</button> -->
+      <!-- <button type="button" class="ms-btn" name="goStepBack">SB</button> -->
     </div>
     <div class="ms-explr-h-addrbar">
-      <input type="text" name="addrBar" value="">
+      <input type="text" name="addrBar" value="" ng-model="currentDirectory">
     </div>
     <div class="ms-explr-h-rt">
       <button type="button" class="ms-btn" name="upload" ng-click="upload()">+</button>
@@ -23,16 +23,23 @@
         <div class="ms-list-2-i-ctx type">Type</div>
         <div class="ms-list-2-i-ctx size">Size</div>
       </div>
-      <div class="ms-list-2-i" ng-repeat='dir in dir.subDirectories'>
+      <div class="ms-list-2-i" ng-repeat="dir in dir.subDirectories" ng-dblclick="openDirectory(dir.name)">
         <div class="ms-list-2-i-ctx icn">&nbsp;</div>
         <div class="ms-list-2-i-ctx name">{{ dir.name }}</div>
-        <div class="ms-list-2-i-ctx date">{{ data | dir.createdOn }}</div>
+        <div class="ms-list-2-i-ctx date">{{ dir.createdOn | date : 'dd-MM-yy HH:mm:ss' }}</div>
         <div class="ms-list-2-i-ctx type">&nbsp</div>
         <div class="ms-list-2-i-ctx size">&nbsp</div>
       </div>
-      <div class="ms-list-2-i" ng-show='isDirectoryEmpty()'>
-        <div class="ms-list-2-i-ctx icn">Empty</div>
+      <div class="ms-list-2-i" ng-repeat='file in dir.files'>
+        <div class="ms-list-2-i-ctx icn">&nbsp;</div>
+        <div class="ms-list-2-i-ctx name">{{ file.name }}</div>
+        <div class="ms-list-2-i-ctx date">{{ file.createdOn | date : 'dd-MM-yy HH:mm:ss' }}</div>
+        <div class="ms-list-2-i-ctx type">{{ file.size}}</div>
+        <div class="ms-list-2-i-ctx size">&nbsp</div>
       </div>
+      <!-- <div class="ms-list-2-i" ng-show='isDirectoryEmpty()'>
+        <div class="ms-list-2-i-ctx icn">Empty</div>
+      </div> -->
     </div>
   </div>
 </div>
