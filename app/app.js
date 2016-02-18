@@ -5,3 +5,6 @@ import { remote } from 'electron'; // native electron module
 import * as tempFile from './api/controllers/write_temp_file';
 
 window.tempFile = tempFile;
+window.closeApp = function() {
+  remote.getCurrentWindow().close();
+};

@@ -11,7 +11,7 @@ window.maidsafeDemo.factory('nfsFactory', [ function(Shared) {
       url: this.SERVER + 'nfs/directory',
       method: 'POST',
       headers: {
-        authorization: 'Bearer ' + this.authToken
+        authorization: 'Bearer ' + this.getAuthToken()
       },
       data: {
         dirPath: dirPath,
@@ -35,7 +35,7 @@ window.maidsafeDemo.factory('nfsFactory', [ function(Shared) {
       url: URL,
       method: 'GET',
       headers: {
-        authorization: 'Bearer ' + this.authToken
+        authorization: 'Bearer ' + this.getAuthToken()
       }
     };
     (new this.Request(payload, callback)).send();

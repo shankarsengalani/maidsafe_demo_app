@@ -1,10 +1,15 @@
 <div class="ms-frame" ng-controller="SampleTemplateCtrl" ng-init="editTitle = false; editDesc = false;" ng-click="editTitle = false; editDesc = false;">
   <div class="ms-sample-template">
-    <div class="sample-template-toolbar">
-      <div class="sample-template-toolbar-i">
-        <button type="button" class="ms-btn ms-primary-btn" name="publish" ng-click="publish()">Publish</button>
+    <!-- header -->
+    <div class="frame-h">
+      <div class="frame-h-act">
+        <a ui-sref="serviceAddFiles, {'serviceName': $state.params.serviceName}" class="frame-h-act-btn">&lt;</a>
       </div>
-    </div>
+      <div class="frame-h-act-rt">
+        <button type="button" class="frame-h-act-btn" name="publish" ng-click="publish()">Publish</button>
+      </div>
+      <h3 class="frame-h-ctx">Sample template</h3>
+    </div><!-- /header -->
     <div class="sample-template-bnr">
       <span class="bnr-bg"></span>
       <div class="site-title edit-ctx" ng-class="{ open: editTitle }">

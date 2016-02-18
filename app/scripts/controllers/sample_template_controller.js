@@ -5,7 +5,7 @@ window.maidsafeDemo.controller('SampleTemplateCtrl', [ '$scope', '$http', 'safeA
   'use strict';
   $scope.siteTitle = 'My Page';
   $scope.siteDesc = 'This page is created and published on the SAFE Network using the SAFE Uploader';
-  var filePath = './views/sample_template_layout.html';
+  var filePath = '/views/sample_template_layout.html';
 
   var writeFile = function(title, content, filePath) {
     window.tempFile.writeTempFile(title, content, filePath, function(err, data) {

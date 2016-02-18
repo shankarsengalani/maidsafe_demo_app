@@ -1,4 +1,5 @@
 var temp = require('temp').track();
+var path = require('path');
 var fs = require('fs');
 var util = require('util');
 
@@ -13,7 +14,7 @@ export let writeTempFile = function(title, content, filePath, callback) {
     var templateString = fs.readFileSync(filePath).toString();
     var tempFilePath = path.resolve(tempDirPath, fileName);
     fs.writeFileSync(tempFilePath,
-        util.format(templateString, title, content));
+        util.format(templateString, title, title, content));
     return callback(null, tempFilePath);
   } catch (e) {
     return callback(e);

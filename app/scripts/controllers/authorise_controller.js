@@ -30,7 +30,7 @@ window.maidsafeDemo.controller('AuthoriseCtrl', [ '$scope', '$state', 'safeApiFa
       console.log(res);
       res = JSON.parse(res);
       if (res.subDirectories.length === 0) {
-        safe.createDir('/public', true, '', false, false, createPubDirCb);
+        safe.createDir('/public', false, '', false, false, createPubDirCb);
       } else {
         $state.go('home');
       }
@@ -38,7 +38,9 @@ window.maidsafeDemo.controller('AuthoriseCtrl', [ '$scope', '$state', 'safeApiFa
 
     var authoriseCb = function(err, res) {
       if (err) {
-        return console.error(err);
+        console.error(err)
+        window.closeApp();
+        return;
       }
       console.log('Application authorised');
       console.log(res);

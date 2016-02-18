@@ -4,15 +4,25 @@
 window.maidsafeDemo.factory('safeApiFactory', [ '$http', '$q', 'nfsFactory', 'dnsFactory', function(http, $q, nfs, dns) {
   'use strict';
   var self = this;
+  var TOKEN_KEY = 'MaidSafeDemoAppToken';
   self.SERVER = 'http://localhost:8100/';
   self.authToken = null;
   self.dnsList = null;
+
+  var setAuthToken = function(token) {
+    localStorage.setItem(TOKEN_KEY, token);
+  };
 
   var symmetricKeys = {
     key: null,
     nonce: null
   };
+
   var sodium = require('libsodium-wrappers');
+
+  self.getAuthToken = function() {
+    return localStorage.getItem(TOKEN_KEY);
+  };
 
   self.Request = function(payload, callback) {
     var encrypt = function() {
@@ -73,7 +83,8 @@ window.maidsafeDemo.factory('safeApiFactory', [ '$http', '$q', 'nfsFactory', 'dn
       if (err) {
         return callback(err);
       }
-      self.authToken = body.token;
+      // self.authToken = body.token;
+      setAuthToken(body.token);
       var cipher = new Uint8Array(new Buffer(body.encryptedKey, 'base64'));
       var publicKey = new Uint8Array(new Buffer(body.publicKey, 'base64'));
       var data = sodium.crypto_box_open_easy(cipher, assymNonce, publicKey, assymKeys.privateKey);
