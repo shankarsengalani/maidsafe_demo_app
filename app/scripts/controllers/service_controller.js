@@ -64,12 +64,13 @@ window.maidsafeDemo.controller('ServiceCtrl', [ '$scope', '$state', 'safeApiFact
   };
 
   $scope.publishService = function() {
-    safe.addService(longName, $state.params.serviceName, false, $scope.newServicePath, function(err, data) {
+    safe.addService(longName, $state.params.serviceName, false, $scope.newServicePath, function(err, res) {
       if (err) {
         console.error(err);
         return;
       }
-      console.log(data);
+      alert('Service published successfully');
+      $state.go('manageService');
     });
   };
 

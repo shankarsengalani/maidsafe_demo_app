@@ -19,10 +19,10 @@
     <div class="ms-list-1" ng-show="serviceList.length > 0">
       <div class="ms-list-1-i" ng-repeat="service in serviceList">
         <div class="ms-list-1-i-ctx">
-          {{ service.name + '.' + service.longName + '.safenet' }}
+          <b>{{ service.name }}</b>{{ '.' + service.longName + '.safenet' }}
         </div>
         <div class="ms-list-1-i-act">
-          <a href="#">Edit Files</a>
+          <a ui-sref="serviceExplorer({serviceName: service.name})">Edit Files</a>
           <a href="#">Visit Site</a>
         </div>
       </div>
