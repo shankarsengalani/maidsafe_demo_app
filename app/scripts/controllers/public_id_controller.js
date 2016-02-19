@@ -4,6 +4,14 @@
 window.maidsafeDemo.controller('PublicIdCtrl', [ '$scope', 'safeApiFactory', function($scope, safe) {
   'use strict';
   $scope.publicId = '';
+  $scope.longName = null;
+
+  $scope.init = function() {
+    var longName = safe.getUserLongName();
+    if (longName) {
+      $scope.longName = longName;
+    }
+  };
 
   $scope.createPublicId = function() {
     if (!$scope.publicId) {
@@ -17,7 +25,9 @@ window.maidsafeDemo.controller('PublicIdCtrl', [ '$scope', 'safeApiFactory', fun
       if (err) {
         return console.log(err);
       }
+      safe.setUserLongName($scope.publicId);
       $scope.publicId = '';
+      $scope.init();
       console.log(res);
     });
     console.log($scope.publicId);
