@@ -8,7 +8,7 @@ window.maidsafeDemo.controller('SampleTemplateCtrl', [ '$scope', '$http', 'safeA
   var filePath = '/views/sample_template_layout.html';
 
   var writeFile = function(title, content, filePath) {
-    window.tempFile.writeTempFile(title, content, filePath, function(err, data) {
+    window.uiUtils.createTemplateFile(title, content, filePath, function(err, data) {
       if (err) {
         return console.error(err);
       }

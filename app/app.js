@@ -2,14 +2,19 @@
 // import os from 'os'; // native node.js module
 import { remote } from 'electron'; // native electron module
 // import jetpack from 'fs-jetpack'; // module loaded from npm
-import Uploader from './scripts/services/uploader';
-import * as tempFile from './api/controllers/write_temp_file';
+import Uploader from './backend/uploader';
+import * as templateFile from './backend/create_template_file';
 
-window.tempFile = tempFile;
-window.closeApp = function() {
-  remote.getCurrentWindow().close();
+class Utils {
+  constructor(remote, Uploader, templateFile) {
+    this.remote = remote;
+    this.Uploader = Uploader;
+    this.createTemplateFile = templateFile.createTemplateFile;
+  }
+
+  closeApp() {
+    this.remote.getCurrentWindow().close();
+  }
+
 };
-
-window.test = function(s) { alert(s);}
-
-window.Uploader = Uploader;
+window.uiUtils = new Utils(remote, Uploader, templateFile);

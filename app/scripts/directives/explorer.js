@@ -29,7 +29,7 @@ window.maidsafeDemo.directive('explorer', ['safeApiFactory', function(safeApi) {
           return;
         }
         // TODO instead of binding uploader to window use require
-        var uploader = new window.Uploader(safeApi);
+        var uploader = new window.uiUtils.Uploader(safeApi);
         var progress = uploader.upload(folders[0], $scope.isPrivate, $scope.currentDirectory);
         progress.onUpdate = function() {
           var progressCompletion = (((progress.completed + progress.failed) / progress.total) * 100);

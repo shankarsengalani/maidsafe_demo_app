@@ -3,7 +3,7 @@ var path = require('path');
 var fs = require('fs');
 var util = require('util');
 
-export let writeTempFile = function(title, content, filePath, callback) {
+export let createTemplateFile = function(title, content, filePath, callback) {
   var tempDirName = 'safe_uploader_template';
   var title = title;
   var content = content;
