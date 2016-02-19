@@ -4,7 +4,9 @@
 window.maidsafeDemo.factory('safeApiFactory', [ '$http', '$q', 'nfsFactory', 'dnsFactory', function(http, $q, nfs, dns) {
   'use strict';
   var self = this;
+  var sodium = require('libsodium-wrappers');
   var TOKEN_KEY = 'MaidSafeDemoAppToken';
+  var LONG_NAME_KEY = 'MaidSafeDemoAppLongName';
   self.SERVER = 'http://localhost:8100/';
   self.authToken = null;
   self.dnsList = null;
@@ -18,10 +20,16 @@ window.maidsafeDemo.factory('safeApiFactory', [ '$http', '$q', 'nfsFactory', 'dn
     nonce: null
   };
 
-  var sodium = require('libsodium-wrappers');
-
   self.getAuthToken = function() {
     return localStorage.getItem(TOKEN_KEY);
+  };
+
+  self.setUserLongName = function(longName) {
+    localStorage.setItem(LONG_NAME_KEY, longName);
+  };
+
+  self.getUserLongName = function() {
+    return localStorage.getItem(LONG_NAME_KEY);
   };
 
   self.Request = function(payload, callback) {

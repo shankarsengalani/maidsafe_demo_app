@@ -4,6 +4,8 @@
 window.maidsafeDemo.controller('ServiceCtrl', [ '$scope', '$state', 'safeApiFactory', function($scope, $state, safe) {
   'use strict';
   $scope.serviceList = [];
+  $scope.newService = null;
+
   // initialization
   $scope.init = function() {
     safe.getDns(function(err, res) {
@@ -48,4 +50,9 @@ window.maidsafeDemo.controller('ServiceCtrl', [ '$scope', '$state', 'safeApiFact
     $scope.serviceName = "";
   };
 
+  // explorer init
+  $scope.explorerInit = function() {
+    $scope.newService = $state.params.serviceName;
+  };
+  
 } ]);

@@ -14,7 +14,10 @@
       will form the URL used to view your site in the browser e.g. blog.maidsafe.safenet
     </p>
   </div><!-- /content 1 -->
-  <!-- explorer -->
-  <explorer is-private="false" on-directory-selected="test(name)"/>
-  <!-- explorer -->
+  <div class="" ng-controller="ServiceCtrl" ng-init="explorerInit()">
+    {{ newService }}
+    <!-- explorer -->
+    <explorer is-private="false" on-directory-selected="test(name)"/>
+    <!-- explorer -->
+  </div>
 </div>
