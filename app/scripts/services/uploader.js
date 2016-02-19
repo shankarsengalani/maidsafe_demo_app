@@ -61,8 +61,7 @@ export default class Uploader {
         }
         api.modifyFileContent(networkParentDirPath + '/' + fileName, false,
           new Uint8Array(fs.readFileSync(localPath)), 0, new ContentUpdated(size));
-        console.log('updating content', networkParentDirPath + '/' + fileName);
-        new ContentUpdated(size)();
+        console.log('updating content', networkParentDirPath + '/' + fileName);        
       };
 
       return this.onResponse;

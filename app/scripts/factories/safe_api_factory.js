@@ -26,7 +26,7 @@ window.maidsafeDemo.factory('safeApiFactory', [ '$http', '$q', 'nfsFactory', 'dn
         if (query[1]) {
           var encryptedQuery = new Buffer(sodium.crypto_secretbox_easy(query[1],
             symmetricKeys.nonce, symmetricKeys.key)).toString('base64');
-          payload.url = query[0] + '?' + encryptedQuery;
+          payload.url = query[0] + '?' + encodeURIComponent(encryptedQuery);
         }
         if (payload.data) {
           var data = payload.data;

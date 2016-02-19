@@ -30,14 +30,24 @@ window.maidsafeDemo.directive('explorer', ['safeApiFactory', function(safeApi) {
         }
         // TODO instead of binding uploader to window use require
         var uploader = new window.Uploader(safeApi);
-        uploader.upload(folders[0], $scope.isPrivate, $scope.currentDirectory);
+        var progress = uploader.upload(folders[0], $scope.isPrivate, $scope.currentDirectory);
+        progress.onUpdate = function() {
+          var progressCompletion = (((progress.completed + progress.failed) / progress.total) * 100);
+          if (progressCompletion === 100) {
+            getDirectory();
+          }
+          // TODO pass percentage to UI
+        };
       });
     };
 
-    $scope.delete = function() {      
+    $scope.delete = function() {
       var path = $scope.currentDirectory + '/' + $scope.selectedPath;
       var onDelete = function(err) {
-        console.log('deleted', err);
+        if (err) {
+          return console.error(err);
+        }
+        getDirectory();
       };
       if ($scope.isFileSelected) {
         safeApi.deleteFile(path, false, onDelete)
