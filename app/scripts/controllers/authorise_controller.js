@@ -36,15 +36,25 @@ window.maidsafeDemo.controller('AuthoriseCtrl', [ '$scope', '$state', 'safeApiFa
       }
     };
 
+    var getDnsCb = function(err, res) {
+      if (err) {
+        return console.error(err);
+      }
+      res = JSON.parse(res);
+      console.log(res);
+      safe.setUserLongName(res[0]);
+      safe.getDir(getDirCb, '/');
+    };
+
     var authoriseCb = function(err, res) {
       if (err) {
         console.error(err)
-        window.closeApp();
+        window.uiUtils.closeApp();
         return;
       }
       console.log('Application authorised');
       console.log(res);
-      safe.getDir(getDirCb, '/');
+      safe.getDns(getDnsCb);
     };
     safe.authorise(authoriseCb);
   };

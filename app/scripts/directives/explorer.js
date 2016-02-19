@@ -34,6 +34,9 @@ window.maidsafeDemo.directive('explorer', ['safeApiFactory', function(safeApi) {
           if (progressCompletion === 100) {
             getDirectory();
           }
+          $scope.onUpload({
+            percentage: progressCompletion
+          });
           // TODO pass percentage to UI
         };
       });
@@ -106,7 +109,8 @@ window.maidsafeDemo.directive('explorer', ['safeApiFactory', function(safeApi) {
     restrict: 'E',
     scope: {
       isPrivate: '=',
-      onDirectorySelected: '&'
+      onDirectorySelected: '&',
+      onUpload: '&'
     },
     templateUrl: './views/explorer.html',
     link: Explorer
