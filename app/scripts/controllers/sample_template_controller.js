@@ -1,18 +1,26 @@
 /**
  * Sample site controller
  */
-window.maidsafeDemo.controller('SampleTemplateCtrl', [ '$scope', '$http', 'safeApiFactory', function($scope, $http, safe) {
+window.maidsafeDemo.controller('SampleTemplateCtrl', [ '$scope', '$http', '$state', 'safeApiFactory', function($scope, $http, $state, safe) {
   'use strict';
   $scope.siteTitle = 'My Page';
   $scope.siteDesc = 'This page is created and published on the SAFE Network using the SAFE Uploader';
   var filePath = '/views/sample_template_layout.html';
 
   var writeFile = function(title, content, filePath) {
-    window.uiUtils.createTemplateFile(title, content, filePath, function(err, data) {
+    window.uiUtils.createTemplateFile(title, content, filePath, function(err, tempPath) {
       if (err) {
         return console.error(err);
       }
-      console.log(data);
+      var uploader = new window.uiUtils.Uploader(safe);
+      var progress = uploader.upload(tempPath, false);
+      progress.onUpdate = function() {
+        if (progress.total === (progress.completed + progress.failed)) {
+          alert('File published');
+          $state.go('manageService');
+        }
+      }
+      console.log(tempPath);
     });
   };
 

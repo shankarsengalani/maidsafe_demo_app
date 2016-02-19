@@ -64,12 +64,13 @@ window.maidsafeDemo.controller('ServiceCtrl', [ '$scope', '$state', 'safeApiFact
   };
 
   $scope.publishService = function() {
-    safe.addService(longName, $state.params.serviceName, false, $scope.newServicePath, function(err, data) {
+    safe.addService(longName, $state.params.serviceName, false, $scope.newServicePath, function(err, res) {
       if (err) {
         console.error(err);
         return;
       }
-      console.log(data);
+      alert('Service published successfully');
+      $state.go('manageService');
     });
   };
 
@@ -78,13 +79,13 @@ window.maidsafeDemo.controller('ServiceCtrl', [ '$scope', '$state', 'safeApiFact
   };
 
   $scope.onUpload = function(percentage) {
-    if (percentage < 100 && !$scope.progressScope.show) {
-      $scope.progressScope.show = true;
+    if (percentage < 100 && !$scope.progressIndicator.show) {
+      $scope.progressIndicator.show = true;
     }
     if (percentage === 100) {
-      $scope.progressScope.show = false;
+      $scope.progressIndicator.show = false;
     }
-    $scope.progressScope.percentage = percentage;
+    $scope.progressIndicator.percentage = Math.floor(percentage);
     console.log(percentage);
   };
 } ]);

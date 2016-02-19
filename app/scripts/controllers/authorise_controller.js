@@ -42,7 +42,9 @@ window.maidsafeDemo.controller('AuthoriseCtrl', [ '$scope', '$state', 'safeApiFa
       }
       res = JSON.parse(res);
       console.log(res);
-      safe.setUserLongName(res[0]);
+      if (res.length !== 0) {
+        safe.setUserLongName(res[0]);
+      }
       safe.getDir(getDirCb, '/');
     };
 
