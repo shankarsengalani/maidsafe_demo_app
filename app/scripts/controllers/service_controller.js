@@ -59,8 +59,8 @@ window.maidsafeDemo.controller('ServiceCtrl', [ '$scope', '$state', 'safeApiFact
   };
 
   // set target folder
-  $scope.setTargetFolder = function(path) {
-    $scope.newServicePath = path;
+  $scope.setTargetFolder = function(name) {
+    $scope.newServicePath = name;    
   };
 
   $scope.publishService = function() {

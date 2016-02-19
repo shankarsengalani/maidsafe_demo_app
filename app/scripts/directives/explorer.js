@@ -21,7 +21,8 @@ window.maidsafeDemo.directive('explorer', ['safeApiFactory', function(safeApi) {
     $scope.upload = function(path) {
       var dialog = require('remote').dialog;
       dialog.showOpenDialog({
-        title: 'Select Directory for upload'
+        title: 'Select Directory for upload',
+        properties: ['openDirectory']
       }, function(folders) {
         if (folders.length === 0) {
           return;
@@ -52,7 +53,7 @@ window.maidsafeDemo.directive('explorer', ['safeApiFactory', function(safeApi) {
         var tempDir = require('temp').mkdirSync('safe-demo-');
         var filePath = require('path').resolve(tempDir, fileName);
         require('fs').writeFileSync(filePath, new Buffer(data));
-        window.downData = data;        
+        window.downData = data;
         require('remote').shell.openItem(filePath);
       };
       safeApi.getFile($scope.currentDirectory + '/' + $scope.selectedPath, false, onResponse);
