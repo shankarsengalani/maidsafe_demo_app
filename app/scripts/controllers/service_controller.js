@@ -5,7 +5,8 @@ window.maidsafeDemo.controller('ServiceCtrl', [ '$scope', '$state', 'safeApiFact
   'use strict';
   $scope.serviceList = [];
   $scope.newService = null;
-
+  $scope.newServicePath = '/public';
+  var longName = safe.getUserLongName();
   // initialization
   $scope.init = function() {
     safe.getDns(function(err, res) {
@@ -52,7 +53,22 @@ window.maidsafeDemo.controller('ServiceCtrl', [ '$scope', '$state', 'safeApiFact
 
   // explorer init
   $scope.explorerInit = function() {
-    $scope.newService = $state.params.serviceName;
+    $scope.newService = $state.params.serviceName + '.' + longName + '.safenet';
   };
-  
+
+  // set target folder
+  $scope.setTargetFolder = function(path) {
+    $scope.newServicePath = path;
+  };
+
+  $scope.publishService = function() {
+    safe.addService(longName, $state.params.serviceName, false, $scope.newServicePath, function(err, data) {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      console.log(data);
+    });
+  };
+
 } ]);

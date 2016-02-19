@@ -7,6 +7,7 @@ window.maidsafeDemo.factory('safeApiFactory', [ '$http', '$q', 'nfsFactory', 'dn
   var sodium = require('libsodium-wrappers');
   var TOKEN_KEY = 'MaidSafeDemoAppToken';
   var LONG_NAME_KEY = 'MaidSafeDemoAppLongName';
+  var SYMMETRIC_KEY = 'MaidSafeDemoAppSymmetricKeys';
   self.SERVER = 'http://localhost:8100/';
   self.authToken = null;
   self.dnsList = null;
@@ -15,9 +16,8 @@ window.maidsafeDemo.factory('safeApiFactory', [ '$http', '$q', 'nfsFactory', 'dn
     localStorage.setItem(TOKEN_KEY, token);
   };
 
-  var symmetricKeys = {
-    key: null,
-    nonce: null
+  var setSymmetricKeys = function(symmetricKeys) {
+    localStorage.setItem(SYMMETRIC_KEY, JSON.stringify(symmetricKeys));
   };
 
   self.getAuthToken = function() {
@@ -32,6 +32,13 @@ window.maidsafeDemo.factory('safeApiFactory', [ '$http', '$q', 'nfsFactory', 'dn
     return localStorage.getItem(LONG_NAME_KEY);
   };
 
+  self.getSymmetricKeys = function() {
+    var symmetricKeys = JSON.parse(localStorage.getItem(SYMMETRIC_KEY));
+    symmetricKeys.key = new Uint8Array(new Buffer(symmetricKeys.key, 'base64'));
+    symmetricKeys.nonce = new Uint8Array(new Buffer(symmetricKeys.nonce, 'base64'));
+    return symmetricKeys;
+  };
+
   self.Request = function(payload, callback) {
     var encrypt = function() {
       if (!(payload.headers && payload.headers.authorization)) {
@@ -39,6 +46,7 @@ window.maidsafeDemo.factory('safeApiFactory', [ '$http', '$q', 'nfsFactory', 'dn
       }
       payload.headers['Content-Type'] = 'text/plain';
       try {
+        var symmetricKeys = self.getSymmetricKeys();
         // TODO query params decryption
         var query = payload.url.split('?');
         if (query[1]) {
@@ -63,6 +71,7 @@ window.maidsafeDemo.factory('safeApiFactory', [ '$http', '$q', 'nfsFactory', 'dn
         return body;
       }
       try {
+        var symmetricKeys = self.getSymmetricKeys();
         var data = body;
         try {
             data = sodium.crypto_secretbox_open_easy(new Uint8Array(new Buffer(body, 'base64')), symmetricKeys.nonce, symmetricKeys.key);
@@ -101,12 +110,19 @@ window.maidsafeDemo.factory('safeApiFactory', [ '$http', '$q', 'nfsFactory', 'dn
         return callback(err);
       }
       // self.authToken = body.token;
+      var symmetricKeys = {
+        key: null,
+        nonce: null
+      };
       setAuthToken(body.token);
       var cipher = new Uint8Array(new Buffer(body.encryptedKey, 'base64'));
       var publicKey = new Uint8Array(new Buffer(body.publicKey, 'base64'));
       var data = sodium.crypto_box_open_easy(cipher, assymNonce, publicKey, assymKeys.privateKey);
       symmetricKeys.key = data.slice(0, sodium.crypto_secretbox_KEYBYTES);
       symmetricKeys.nonce = data.slice(sodium.crypto_secretbox_KEYBYTES);
+      symmetricKeys.key = new Buffer(symmetricKeys.key).toString('base64');
+      symmetricKeys.nonce = new Buffer(symmetricKeys.nonce).toString('base64');
+      setSymmetricKeys(symmetricKeys);
       callback(null, symmetricKeys);
     };
 

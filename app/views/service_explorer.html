@@ -15,9 +15,15 @@
     </p>
   </div><!-- /content 1 -->
   <div class="" ng-controller="ServiceCtrl" ng-init="explorerInit()">
-    {{ newService }}
+    <div class="confirm-service">
+      <h3 class="confirm-service-title">{{ newService }}</h3>
+      <h3 class="confirm-service-path">{{ newServicePath }}</h3>
+      <div class="confirm-service-act">
+        <button type="button" class="ms-btn ms-primary-btn" name="confirmService" ng-click="publishService()">Publish</button>
+      </div>
+    </div>
     <!-- explorer -->
-    <explorer is-private="false" on-directory-selected="test(name)"/>
+    <explorer is-private="false" on-directory-selected="setTargetFolder(name)"/>
     <!-- explorer -->
   </div>
 </div>
