@@ -12,12 +12,18 @@ window.maidsafeDemo.controller('SampleTemplateCtrl', [ '$scope', '$http', '$stat
       if (err) {
         return console.error(err);
       }
+      var path = require('path');
       var uploader = new window.uiUtils.Uploader(safe);
-      var progress = uploader.upload(tempPath, false);
+      var progress = uploader.upload(tempPath, false, '/public');
       progress.onUpdate = function() {
         if (progress.total === (progress.completed + progress.failed)) {
-          alert('File published');
-          $state.go('manageService');
+          safe.addService(safe.getUserLongName(), $state.params.serviceName, false, '/public/' + path.basename(tempPath), function(err) {
+            if (err) {
+              return console.error(err);
+            }
+            alert('File published');
+            $state.go('manageService');
+          });
         }
       }
       console.log(tempPath);
