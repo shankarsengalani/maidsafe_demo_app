@@ -78,13 +78,13 @@ window.maidsafeDemo.controller('ServiceCtrl', [ '$scope', '$state', 'safeApiFact
   };
 
   $scope.onUpload = function(percentage) {
-    if (percentage < 100 && !$scope.progressScope.show) {
-      $scope.progressScope.show = true;
+    if (percentage < 100 && !$scope.progressIndicator.show) {
+      $scope.progressIndicator.show = true;
     }
     if (percentage === 100) {
-      $scope.progressScope.show = false;
+      $scope.progressIndicator.show = false;
     }
-    $scope.progressScope.percentage = percentage;
+    $scope.progressIndicator.percentage = Math.floor(percentage);
     console.log(percentage);
   };
 } ]);
