@@ -59,9 +59,10 @@ export default class Uploader {
           console.error(err);
           return updateProgressOnFailure(size, localPath);
         }
+        window.upData = new Uint8Array(fs.readFileSync(localPath));
         api.modifyFileContent(networkParentDirPath + '/' + fileName, false,
           new Uint8Array(fs.readFileSync(localPath)), 0, new ContentUpdated(size));
-        console.log('updating content', networkParentDirPath + '/' + fileName);        
+        console.log('updating content', networkParentDirPath + '/' + fileName);
       };
 
       return this.onResponse;

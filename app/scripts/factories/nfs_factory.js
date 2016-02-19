@@ -82,14 +82,27 @@ window.maidsafeDemo.factory('nfsFactory', [ function(Shared) {
   };
 
   self.modifyFileContent = function(filePath, isPathShared, dataAsUint, offset, callback) {
+    var url = this.SERVER + 'nfs/file/' + encodeURIComponent(filePath) + '/' + isPathShared + '?offset=' + offset;
     offset = offset || 0;
     var payload = {
-      url: this.SERVER + 'nfs/file/' + encodeURIComponent(filePath) + '/' + isPathShared + '?offset=' + offset,
+      url: url,
       method: 'PUT',
       headers: {
         authorization: 'Bearer ' + this.getAuthToken()
       },
       data: dataAsUint
+    };
+    (new this.Request(payload, callback)).send();
+  };
+
+  self.getFile = function(filePath, isPathShared, callback) {
+    var url = this.SERVER + 'nfs/file/' + encodeURIComponent(filePath) + '/' + isPathShared;
+    var payload = {
+      url: url,
+      method: 'GET',
+      headers: {
+        authorization: 'Bearer ' + this.getAuthToken()
+      }
     };
     (new this.Request(payload, callback)).send();
   };

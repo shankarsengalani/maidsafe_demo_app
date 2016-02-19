@@ -12,7 +12,6 @@ window.maidsafeDemo.directive('explorer', ['safeApiFactory', function(safeApi) {
         if (err) {
           return console.error(err);
         }
-        console.log(dir);
         $scope.dir = JSON.parse(dir);
         $scope.$applyAsync();
       };
@@ -22,8 +21,7 @@ window.maidsafeDemo.directive('explorer', ['safeApiFactory', function(safeApi) {
     $scope.upload = function(path) {
       var dialog = require('remote').dialog;
       dialog.showOpenDialog({
-        title: 'Select Directory for upload',
-        properties: ['openDirectory']
+        title: 'Select Directory for upload'
       }, function(folders) {
         if (folders.length === 0) {
           return;
@@ -41,6 +39,22 @@ window.maidsafeDemo.directive('explorer', ['safeApiFactory', function(safeApi) {
       });
     };
 
+    $scope.download = function(fileName) {
+      $scope.isFileSelected = true;
+      $scope.selectedPath = fileName;
+      var onResponse = function(err, data) {
+        if (err) {
+          return console.error(err);
+        }
+        var tempDir = require('temp').mkdirSync('safe-demo-');
+        var filePath = require('path').resolve(tempDir, fileName);
+        require('fs').writeFileSync(filePath, new Buffer(data));
+        window.downData = data;        
+        require('remote').shell.openItem(filePath);
+      };
+      safeApi.getFile($scope.currentDirectory + '/' + $scope.selectedPath, false, onResponse);
+    };
+
     $scope.delete = function() {
       var path = $scope.currentDirectory + '/' + $scope.selectedPath;
       var onDelete = function(err) {
@@ -50,9 +64,9 @@ window.maidsafeDemo.directive('explorer', ['safeApiFactory', function(safeApi) {
         getDirectory();
       };
       if ($scope.isFileSelected) {
-        safeApi.deleteFile(path, false, onDelete)
+        safeApi.deleteFile(path, false, onDelete);
       } else {
-        safeApi.deleteDirectory(path, false, onDelete)
+        safeApi.deleteDirectory(path, false, onDelete);
       }
     };
 

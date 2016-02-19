@@ -50,15 +50,15 @@ window.maidsafeDemo.factory('safeApiFactory', [ '$http', '$q', 'nfsFactory', 'dn
         return callback(e);
       }
     };
-    var decrypt = function(body) {
+    var decrypt = function(response) {
       if (!(payload.headers && payload.headers.authorization)) {
-        return body;
+        return response.data;
       }
       try {
-        var data = body;
+        var data = response.data;
         try {
-            data = sodium.crypto_secretbox_open_easy(new Uint8Array(new Buffer(body, 'base64')), symmetricKeys.nonce, symmetricKeys.key);
-            data = new Buffer(data).toString();
+            data = sodium.crypto_secretbox_open_easy(new Uint8Array(new Buffer(data, 'base64')), symmetricKeys.nonce, symmetricKeys.key);
+            data = response.headers('file-name') ? new Buffer(data) : new Buffer(data).toString();
         } catch(e) {}
         return data;
       } catch(e) {
@@ -69,7 +69,7 @@ window.maidsafeDemo.factory('safeApiFactory', [ '$http', '$q', 'nfsFactory', 'dn
       if (!response) {
         return callback();
       }
-      callback(null, decrypt(response.data), response.headers);
+      callback(null, decrypt(response), response.headers);
     };
     var onError = function(err) {
       err = decrypt(err);
