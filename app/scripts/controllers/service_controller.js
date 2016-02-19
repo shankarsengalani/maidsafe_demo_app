@@ -6,6 +6,8 @@ window.maidsafeDemo.controller('ServiceCtrl', [ '$scope', '$state', 'safeApiFact
   $scope.serviceList = [];
   $scope.newService = null;
   $scope.newServicePath = '/public';
+  $scope.progressIndicator = null;
+
   var longName = safe.getUserLongName();
   // initialization
   $scope.init = function() {
@@ -71,4 +73,18 @@ window.maidsafeDemo.controller('ServiceCtrl', [ '$scope', '$state', 'safeApiFact
     });
   };
 
+  $scope.registerProgress = function(progressScope) {
+    $scope.progressIndicator = progressScope;
+  };
+
+  $scope.onUpload = function(percentage) {
+    if (percentage < 100 && !$scope.progressScope.show) {
+      $scope.progressScope.show = true;
+    }
+    if (percentage === 100) {
+      $scope.progressScope.show = false;
+    }
+    $scope.progressScope.percentage = percentage;
+    console.log(percentage);
+  };
 } ]);

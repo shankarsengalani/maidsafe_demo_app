@@ -23,7 +23,8 @@
       </div>
     </div>
     <!-- explorer -->
-    <explorer is-private="false" on-directory-selected="setTargetFolder(name)"/>
+    <explorer is-private="false" on-directory-selected="setTargetFolder(name)" on-upload="onUpload(percentage)"/>
     <!-- explorer -->
+    <progress-indicator register="registerProgress(scope)">
   </div>
 </div>
