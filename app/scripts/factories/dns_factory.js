@@ -10,7 +10,7 @@ window.maidsafeDemo.factory('dnsFactory', [ function(Shared) {
       url: this.SERVER + 'dns/' + longName,
       method: 'POST',
       headers: {
-        authorization: 'Bearer ' + this.authToken
+        authorization: 'Bearer ' + this.getAuthToken()
       }
     };
     (new this.Request(payload, callback)).send();
@@ -22,7 +22,7 @@ window.maidsafeDemo.factory('dnsFactory', [ function(Shared) {
       url: this.SERVER + 'dns',
       method: 'GET',
       headers: {
-        authorization: 'Bearer ' + this.authToken
+        authorization: 'Bearer ' + this.getAuthToken()
       }
     };
     (new this.Request(payload, callback)).send();
@@ -34,7 +34,7 @@ window.maidsafeDemo.factory('dnsFactory', [ function(Shared) {
       url: this.SERVER + 'dns/' + longName,
       method: 'GET',
       headers: {
-        authorization: 'Bearer ' + this.authToken
+        authorization: 'Bearer ' + this.getAuthToken()
       }
     };
     (new this.Request(payload, callback)).send();
@@ -46,7 +46,7 @@ window.maidsafeDemo.factory('dnsFactory', [ function(Shared) {
       url: this.SERVER + 'dns',
       method: 'PUT',
       headers: {
-        authorization: 'Bearer ' + this.authToken
+        authorization: 'Bearer ' + this.getAuthToken()
       },
       data: {
         longName: longName,

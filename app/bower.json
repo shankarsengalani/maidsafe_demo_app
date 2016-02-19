@@ -1,6 +1,6 @@
 {
-  "name": "safe_launcher",
-  "description": "SAFE launcher - gateway to the SAFE Network",
+  "name": "maidsafe-demo-app",
+  "description": "MaidSafe Demo App",
   "dependencies": {
     "angular": "^1.4.0",
     "angular-ui-router": "~0.2.15",

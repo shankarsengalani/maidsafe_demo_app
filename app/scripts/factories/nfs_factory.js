@@ -11,7 +11,7 @@ window.maidsafeDemo.factory('nfsFactory', [ function(Shared) {
       url: this.SERVER + 'nfs/directory',
       method: 'POST',
       headers: {
-        authorization: 'Bearer ' + this.authToken
+        authorization: 'Bearer ' + this.getAuthToken()
       },
       data: {
         dirPath: dirPath,
@@ -35,7 +35,7 @@ window.maidsafeDemo.factory('nfsFactory', [ function(Shared) {
       url: URL,
       method: 'GET',
       headers: {
-        authorization: 'Bearer ' + this.authToken
+        authorization: 'Bearer ' + this.getAuthToken()
       }
     };
     (new this.Request(payload, callback)).send();
@@ -47,7 +47,7 @@ window.maidsafeDemo.factory('nfsFactory', [ function(Shared) {
       url: url,
       method: 'DELETE',
       headers: {
-        authorization: 'Bearer ' + this.authToken
+        authorization: 'Bearer ' + this.getAuthToken()
       }
     };
     (new this.Request(payload, callback)).send();
@@ -58,7 +58,7 @@ window.maidsafeDemo.factory('nfsFactory', [ function(Shared) {
       url: this.SERVER + 'nfs/file/' + encodeURIComponent(filePath) + '/' + (isPathShared || false),
       method: 'DELETE',
       headers: {
-        authorization: 'Bearer ' + this.authToken
+        authorization: 'Bearer ' + this.getAuthToken()
       }
     };
     (new this.Request(payload, callback)).send();
@@ -70,7 +70,7 @@ window.maidsafeDemo.factory('nfsFactory', [ function(Shared) {
       url: url,
       method: 'POST',
       headers: {
-        authorization: 'Bearer ' + this.authToken
+        authorization: 'Bearer ' + this.getAuthToken()
       },
       data: {
         filePath: filePath,
@@ -87,7 +87,7 @@ window.maidsafeDemo.factory('nfsFactory', [ function(Shared) {
       url: this.SERVER + 'nfs/file/' + encodeURIComponent(filePath) + '/' + isPathShared + '?offset=' + offset,
       method: 'PUT',
       headers: {
-        authorization: 'Bearer ' + this.authToken
+        authorization: 'Bearer ' + this.getAuthToken()
       },
       data: dataAsUint
     };
