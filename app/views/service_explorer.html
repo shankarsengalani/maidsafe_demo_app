@@ -16,13 +16,7 @@
       which will serve as the start page. Hit publish to Go Live!
     </p>
   </div><!-- /content 1 -->
-  <div class="" ng-controller="ServiceCtrl" ng-init="explorerInit()">
-    <div class="confirm-service">      
-      <h3 class="confirm-service-title">{{ newService }}</h3>
-      <h3 class="confirm-service-path">{{ newServicePath }}</h3>
-        <button type="button" class="ms-btn ms-primary-btn" name="confirmService" ng-click="publishService()">Publish</button>
-      </div>
-    </div>
+  <div class="" ng-controller="ServiceCtrl" ng-init="explorerInit()">    
     <!-- explorer -->
     <explorer is-private="false" on-directory-selected="setTargetFolder(name)" on-upload="onUpload(percentage)"/>
     <!-- explorer -->

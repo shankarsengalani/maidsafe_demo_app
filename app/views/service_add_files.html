@@ -19,9 +19,10 @@
       <div class="text-center">
         Browse through your files to add to your site.
       </div>
-      <div class="content-1 text-center">
+      <div class="content-1 text-center" ng-controller="ServiceCtrl">
         <button type="button" class="ms-btn ms-primary-btn" name="browseFile"
-          ng-click="$state.go('serviceExplorer', {serviceName: $state.params.serviceName})">Browse</button>
+          ng-click="uploadDirectoryForService()">Browse</button>
+          <progress-indicator register="registerProgress(scope)">
       </div>
     </div>
     <div class="or-comp-or">OR</div>

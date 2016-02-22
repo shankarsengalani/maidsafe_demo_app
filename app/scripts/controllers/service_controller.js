@@ -60,7 +60,7 @@ window.maidsafeDemo.controller('ServiceCtrl', [ '$scope', '$state', 'safeApiFact
 
   // set target folder
   $scope.setTargetFolder = function(name) {
-    $scope.newServicePath = name;    
+    $scope.newServicePath = name;
   };
 
   $scope.publishService = function() {
@@ -76,6 +76,37 @@ window.maidsafeDemo.controller('ServiceCtrl', [ '$scope', '$state', 'safeApiFact
 
   $scope.registerProgress = function(progressScope) {
     $scope.progressIndicator = progressScope;
+  };
+
+  $scope.uploadDirectoryForService = function() {
+    var dialog = require('remote').dialog;
+    dialog.showOpenDialog({
+      title: 'Select Directory for upload',
+      properties: ['openDirectory']
+    }, function(folders) {
+      if (folders.length === 0) {
+        return;
+      }
+      var serviceName = $state.params.serviceName;
+      // TODO instead of binding uploader to window use require
+      var uploader = new window.uiUtils.Uploader(safe);
+      var progress = uploader.upload(folders[0], false, '/public/' + serviceName);
+      progress.onUpdate = function() {
+        var progressCompletion = (((progress.completed + progress.failed) / progress.total) * 100);
+        if (progressCompletion === 100) {
+          safe.addService(safe.getUserLongName(), serviceName, false, '/public/' + serviceName, function(err) {
+            if (err) {
+              console.error(err);
+              alert('Service could not b created');
+              return $state.go('manageService');
+            }
+            alert('Service has been published.');
+            $state.go('manageService');
+          });
+        }
+        $scope.onUpload(progressCompletion);
+      };
+    });
   };
 
   $scope.onUpload = function(percentage) {

@@ -6,7 +6,7 @@ export default class Uploader {
     this.api = api;
   }
 
-  upload(localPath, isPrivate, folderPath) {
+  upload(localPath, isPrivate, networkPath) {
     let api = this.api;
     let progress = {
       total: 0,
@@ -32,7 +32,6 @@ export default class Uploader {
       }
       return size;
     };
-
 
     let updateProgressOnFailure = function(size, path) {
       progress.failed += size;
@@ -75,9 +74,9 @@ export default class Uploader {
       api.createFile(networkParentDirPath + '/' + fileName, '', false, hanlder);
     };
 
-    let DirectoryCreationHanler = function(isPrivate, localPath, networkParentDirPath) {
+    let DirectoryCreationHanler = function(isPrivate, localPath, networkParentDirPath, isRoot) {
       this.onResponse = function(err) {
-        if (err) {
+        if (err && !isRoot) {
           console.log(err);
           return updateProgressOnFailure(computeDirectorySize(localPath), localPath);
         }
@@ -97,9 +96,9 @@ export default class Uploader {
       return this.onResponse;
     };
 
-    let uploadDirectory = function(isPrivate, localPath, networkParentDirPath) {
-      networkParentDirPath += ('/' + path.basename(localPath));
-      let hanlder = new DirectoryCreationHanler(isPrivate, localPath, networkParentDirPath);
+    let uploadDirectory = function(isPrivate, localPath, networkParentDirPath, isRoot) {
+      networkParentDirPath += isRoot ? '' : ('/' + path.basename(localPath));
+      let hanlder = new DirectoryCreationHanler(isPrivate, localPath, networkParentDirPath, isRoot);
       console.log('Dir ::', localPath, networkParentDirPath);
       api.createDir(networkParentDirPath, isPrivate, null, false, false, hanlder);
     };
@@ -107,10 +106,10 @@ export default class Uploader {
     let stat = fs.statSync(localPath);
     if (stat.isDirectory()) {
       progress.total = computeDirectorySize(localPath);
-      uploadDirectory(isPrivate, localPath, folderPath || '');
+      uploadDirectory(isPrivate, localPath, networkPath || '/', true);
     } else {
       progress.total = stat.size;
-      uploadFile(localPath, folderPath || path.dirname(localPath));
+      uploadFile(localPath, networkPath || '/');
     }
     return progress;
   }

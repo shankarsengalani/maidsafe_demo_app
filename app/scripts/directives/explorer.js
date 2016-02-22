@@ -37,8 +37,7 @@ window.maidsafeDemo.directive('explorer', ['safeApiFactory', function(safeApi) {
           }
           $scope.onUpload({
             percentage: progressCompletion
-          });
-          // TODO pass percentage to UI
+          });          
         };
       });
     };

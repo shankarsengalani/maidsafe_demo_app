@@ -1,7 +1,7 @@
 /**
  * Sample site controller
  */
-window.maidsafeDemo.controller('SampleTemplateCtrl', [ '$scope', '$http', '$state', 'safeApiFactory', function($scope, $http, $state, safe) {
+window.maidsafeDemo.controller('SampleTemplateCtrl', ['$scope', '$http', '$state', 'safeApiFactory', function($scope, $http, $state, safe) {
   'use strict';
   $scope.siteTitle = 'My Page';
   $scope.siteDesc = 'This page is created and published on the SAFE Network using the SAFE Uploader';
@@ -13,21 +13,26 @@ window.maidsafeDemo.controller('SampleTemplateCtrl', [ '$scope', '$http', '$stat
         return console.error(err);
       }
       var path = require('path');
+      var serviceName = $state.params.serviceName;
       var uploader = new window.uiUtils.Uploader(safe);
-      var progress = uploader.upload(tempPath, false, '/public');
+      var progress = uploader.upload(tempPath, false, '/public/' + serviceName);
       progress.onUpdate = function() {
         if (progress.total === (progress.completed + progress.failed)) {
-          safe.addService(safe.getUserLongName(), $state.params.serviceName, false, '/public/' + path.basename(tempPath), function(err) {
+          safe.addService(safe.getUserLongName(), serviceName, false, '/public/' + serviceName, function(err) {
             if (err) {
               return console.error(err);
             }
-            alert('File published');
+            alert('Service has been published.');
             $state.go('manageService');
           });
         }
       }
       console.log(tempPath);
     });
+  };
+
+  $scope.registerProgress = function(progressScope) {
+    $scope.progressIndicator = progressScope;
   };
 
   $scope.publish = function() {
@@ -40,4 +45,4 @@ window.maidsafeDemo.controller('SampleTemplateCtrl', [ '$scope', '$http', '$stat
     e.target.select();
   }
 
-} ]);
+}]);
