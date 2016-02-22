@@ -9,8 +9,18 @@
       <input type="text" name="addrBar" value="" ng-model="currentDirectory">
     </div>
     <div class="ms-explr-h-rt">
-      <button type="button" class="ms-btn" name="upload" ng-click="upload()">+</button>
-      <button type="button" class="ms-btn" name="goBack">R</button>
+      <button type="button" class="ms-btn" name="upload" ng-click="uploadDialog = !uploadDialog">+</button>
+      <div ng-show="uploadDialog" style="width:150px; height:80px; position:absolute;background: #ccc; margin: 30px 0 0 -20px">
+        <ul style="list-style-type:none">
+          <li ng-click="upload(false)" style="line-height: 30px">
+            Upload Directory
+          </li>
+          <li ng-click="upload(true)" style="line-height: 30px">
+            Upload File
+          <li>
+        </ul>
+      </div>
+      <button type="button" class="ms-btn" name="goBack" ng-click="rename = !rename">R</button>
       <button type="button" class="ms-btn" name="goBack" ng-click="delete()">D</button>
     </div>
   </div>
@@ -32,10 +42,13 @@
       </div>
       <div class="ms-list-2-i" ng-repeat='file in dir.files' ng-click="select(file.name, true)" ng-dblclick="download(file.name)">
         <div class="ms-list-2-i-ctx icn">&nbsp;</div>
-        <div class="ms-list-2-i-ctx name">{{ file.name }}</div>
+        <div class="ms-list-2-i-ctx name" ng-show="{{ !rename }}">{{ file.name }}</div>
+        <!-- <div class="ms-list-2-i-ctx name" ng-show="{{ selectedPath === file.name && rename }}">
+          <input type="text" value={{ file.name}}/>
+        </div> -->
         <div class="ms-list-2-i-ctx date">{{ file.createdOn | date : 'dd-MM-yy HH:mm:ss' }}</div>
-        <div class="ms-list-2-i-ctx type">{{ file.size}}</div>
-        <div class="ms-list-2-i-ctx size">&nbsp</div>
+        <div class="ms-list-2-i-ctx type">{{ mime.lookup(file.name) }}</div>
+        <div class="ms-list-2-i-ctx size">{{ file.size }}</div>
       </div>
       <!-- <div class="ms-list-2-i" ng-show='isDirectoryEmpty()'>
         <div class="ms-list-2-i-ctx icn">Empty</div>

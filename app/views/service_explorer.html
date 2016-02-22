@@ -16,9 +16,9 @@
       which will serve as the start page. Hit publish to Go Live!
     </p>
   </div><!-- /content 1 -->
-  <div class="" ng-controller="ServiceCtrl" ng-init="explorerInit()">    
+  <div class="" ng-controller="ServiceCtrl" ng-init="explorerInit()">
     <!-- explorer -->
-    <explorer is-private="false" on-directory-selected="setTargetFolder(name)" on-upload="onUpload(percentage)"/>
+    <explorer is-private="false" starting-path="$state.params.serviceName" on-directory-selected="setTargetFolder(name)" on-upload="onUpload(percentage)"/>
     <!-- explorer -->
     <progress-indicator register="registerProgress(scope)">
   </div>

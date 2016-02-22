@@ -106,5 +106,28 @@ window.maidsafeDemo.factory('nfsFactory', [ function(Shared) {
     };
     (new this.Request(payload, callback)).send();
   };
+
+  var rename = function(path, isPathShared, newName, isFile, callback) {
+    var url = this.SERVER + (isFile ? 'nfs/file/' : 'nfs/directory/') + encodeURIComponent(path) + '/' + isPathShared;
+    var payload = {
+      url: url,
+      method: 'PUT',
+      headers: {
+        authorization: 'Bearer ' + this.getAuthToken()
+      },
+      data: {
+        name: newName
+      }
+    };
+    (new this.Request(payload, callback)).send();
+  }
+
+  self.renameDirectory = function(dirPath, isPathShared, newName, callback) {
+    rename(dirPath, isPathShared, newName, false, callback);
+  };
+
+  self.renameFile = function(oldPath, isPathShared, newPath, callback) {
+    rename(dirPath, isPathShared, newName, true, callback);
+  };
   return self;
 } ]);
