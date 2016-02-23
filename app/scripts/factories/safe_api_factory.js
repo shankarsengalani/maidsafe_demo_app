@@ -1,7 +1,7 @@
 /**
  * SAFE Api factory
  */
-window.maidsafeDemo.factory('safeApiFactory', [ '$http', '$q', 'nfsFactory', 'dnsFactory', function(http, $q, nfs, dns) {
+window.maidsafeDemo.factory('safeApiFactory', ['$http', '$q', 'nfsFactory', 'dnsFactory', function(http, $q, nfs, dns) {
   'use strict';
   var self = this;
   var sodium = require('libsodium-wrappers');
@@ -62,7 +62,7 @@ window.maidsafeDemo.factory('safeApiFactory', [ '$http', '$q', 'nfsFactory', 'dn
           payload.data = new Buffer(sodium.crypto_secretbox_easy(data, symmetricKeys.nonce, symmetricKeys.key)).toString('base64');
         }
         return payload;
-      } catch(e) {
+      } catch (e) {
         return callback(e);
       }
     };
@@ -74,11 +74,11 @@ window.maidsafeDemo.factory('safeApiFactory', [ '$http', '$q', 'nfsFactory', 'dn
         var data = response.data;
         var symmetricKeys = self.getSymmetricKeys();
         try {
-            data = sodium.crypto_secretbox_open_easy(new Uint8Array(new Buffer(data, 'base64')), symmetricKeys.nonce, symmetricKeys.key);
-            data = response.headers('file-name') ? new Buffer(data) : new Buffer(data).toString();
-        } catch(e) {}
+          data = sodium.crypto_secretbox_open_easy(new Uint8Array(new Buffer(data, 'base64')), symmetricKeys.nonce, symmetricKeys.key);
+          data = response.headers('file-name') ? new Buffer(data) : new Buffer(data).toString();
+        } catch (e) {}
         return data;
-      } catch(e) {
+      } catch (e) {
         return callback(e);
       }
     };
@@ -98,8 +98,7 @@ window.maidsafeDemo.factory('safeApiFactory', [ '$http', '$q', 'nfsFactory', 'dn
     return this;
   };
 
-  // authorise application
-  self.authorise = function(callback) {
+  var sendAuthorisationRequest = function(callback) {
     var assymKeys = sodium.crypto_box_keypair();
     var assymNonce = sodium.randombytes_buf(sodium.crypto_box_NONCEBYTES);
     var publicKey = new Buffer(assymKeys.publicKey).toString('base64');
@@ -143,5 +142,31 @@ window.maidsafeDemo.factory('safeApiFactory', [ '$http', '$q', 'nfsFactory', 'dn
     };
     (new self.Request(payload, onResponse)).send();
   };
+
+  var isTokenValid = function(callback) {
+    var token = self.getAuthToken();
+    if (!token) {
+      return callback('No token found');
+    }
+    var payload = {
+      url: self.SERVER + 'auth',
+      method: 'GET',
+      headers: {
+        authorization: 'Bearer ' + token
+      }
+    };
+    (new self.Request(payload, callback)).send();
+  };
+
+  // authorise application
+  self.authorise = function(callback) {
+    isTokenValid(function(err) {
+      if (err) {
+        localStorage.clear();
+        return sendAuthorisationRequest(callback);
+      }
+      return callback();
+    });
+  };
   return $.extend(self, nfs, dns);
-} ]);
+}]);
