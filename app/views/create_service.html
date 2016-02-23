@@ -16,7 +16,7 @@
   </div><!-- /content 1 -->
   <!-- create service form -->
   <div class="ms-form">
-    <form id="create_service" name="create_service" ng-submit="createService()">
+    <form id="create_service" name="create_service" ng-submit="createService()" ng-init="$state.params.serviceName ? serviceName = $state.params.serviceName : ''">
       <div class="form-grp lgt">
         <input type="text" name="service" required="required" placeholder="Service" ng-model="serviceName">
       </div>
@@ -32,7 +32,7 @@
     </p>
   </div><!-- /content 1 -->
   <div class="service-preview">
-    <span class="service-preview-ctx">{{ serviceName }}.publicId.safenet</span>
+    <span class="service-preview-ctx">{{ serviceName ? serviceName : 'demo' }}.{{getUserLongName()}}.safenet</span>
   </div>
   <div class="container-1 text-center">
     <button type="submit" class="ms-btn ms-primary-btn" form="create_service" name="submitService">Next</button>

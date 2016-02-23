@@ -9,8 +9,11 @@ window.maidsafeDemo.controller('ServiceCtrl', [ '$scope', '$state', 'safeApiFact
   $scope.progressIndicator = null;
 
   var longName = safe.getUserLongName();
-  // initialization
-  $scope.init = function() {
+
+  $scope.getUserLongName = safe.getUserLongName;
+  
+  // get services
+  $scope.getServices = function() {
     safe.getDns(function(err, res) {
       if (err) {
         return console.error(err);
