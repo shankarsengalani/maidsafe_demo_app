@@ -10,8 +10,9 @@ window.maidsafeDemo.controller('ServiceCtrl', [ '$scope', '$state', 'safeApiFact
 
   var longName = safe.getUserLongName();
 
+  // TODO refactor redundancy
   $scope.getUserLongName = safe.getUserLongName;
-  
+
   // get services
   $scope.getServices = function() {
     safe.getDns(function(err, res) {
