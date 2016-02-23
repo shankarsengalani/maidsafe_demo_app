@@ -1,27 +1,27 @@
 <div class="ms-explr">
   <div class="ms-explr-h">
     <div class="ms-explr-h-lt">
-      <button type="button" class="ms-btn" name="goBack" ng-click="back()">B</button>
+      <button type="button" class="ms-btn ms-up-btn" name="goBack" ng-click="back()"></button>
       <!-- <button type="button" class="ms-btn" name="goForward">F</button> -->
       <!-- <button type="button" class="ms-btn" name="goStepBack">SB</button> -->
     </div>
     <div class="ms-explr-h-addrbar">
       <input type="text" name="addrBar" readonly value="" ng-model="currentDirectory">
     </div>
-    <div class="ms-explr-h-rt">
-      <button type="button" class="ms-btn" name="upload" ng-click="uploadDialog = !uploadDialog">+</button>
-      <div ng-show="uploadDialog" style="width:150px; height:80px; position:absolute;background: #ccc; margin: 30px 0 0 -20px">
+    <div class="ms-explr-h-rt ms-dropdown">
+      <button type="button" class="ms-btn ms-add-btn" name="upload" ng-click="uploadDialog = !uploadDialog"></button>
+      <div ng-show="uploadDialog" class="ms-dropdown-b">
         <ul style="list-style-type:none">
-          <li ng-click="upload(false)" style="line-height: 30px">
+          <li ng-click="upload(false)">
             Upload Directory
           </li>
-          <li ng-click="upload(true)" style="line-height: 30px">
+          <li ng-click="upload(true)">
             Upload File
-          <li>
+          </li>
         </ul>
       </div>
-      <button type="button" class="ms-btn" name="goBack" ng-click="rename = !rename">R</button>
-      <button type="button" class="ms-btn" name="goBack" ng-click="delete()">D</button>
+      <button type="button" class="ms-btn ms-rename-btn" name="goBack" ng-click="rename = !rename"></button>
+      <button type="button" class="ms-btn ms-delete-btn" name="goBack" ng-click="delete()"></button>
     </div>
   </div>
   <div class="ms-explr-cont">
@@ -41,7 +41,7 @@
         <div class="ms-list-2-i-ctx size">&nbsp</div>
       </div>
       <div class="ms-list-2-i" ng-repeat='file in dir.files' ng-click="select(file.name, true)" ng-dblclick="download(file.name)">
-        <div class="ms-list-2-i-ctx icn">&nbsp;</div>
+        <div class="ms-list-2-i-ctx icn" ng-class="getFileIconClass(file.name)">&nbsp;</div>
         <div class="ms-list-2-i-ctx name" ng-show="{{ !rename }}">{{ file.name }}</div>
         <!-- <div class="ms-list-2-i-ctx name" ng-show="{{ selectedPath === file.name && rename }}">
           <input type="text" value={{ file.name}}/>

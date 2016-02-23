@@ -2,6 +2,14 @@ window.maidsafeDemo.directive('explorer', ['safeApiFactory', function(safeApi) {
 
   var Explorer = function($scope, element, attrs) {
     var rootFolder = '/' + ($scope.isPrivate ? 'private' : 'public') + '/';
+    var FILE_ICON_CLASSES = {
+      GENERIC: 'ms-icn-file-generic',
+      IMAGE: 'ms-icn-file-img',
+      AUDIO: 'ms-icn-file-audio',
+      TEXT: 'ms-icn-file-txt',
+      VIDEO: 'ms-icn-file-video'
+    };
+
     $scope.currentDirectory = rootFolder + ($scope.startingPath ? ($scope.startingPath + '/') : '');
     $scope.mime = require('mime');
     $scope.selectedPath = null;
@@ -17,6 +25,31 @@ window.maidsafeDemo.directive('explorer', ['safeApiFactory', function(safeApi) {
         $scope.$applyAsync();
       };
       safeApi.getDir(onResponse, $scope.currentDirectory, false);
+    };
+
+    $scope.getFileIconClass = function(fileName) {
+      fileName = fileName.split('.');
+      var ext = fileName[ fileName.length - 1 ];
+      ext = ext.toLowerCase();
+
+      var imgExt = [ 'jpeg', 'jpg', 'png', 'gif', 'ttf' ];
+      var textExt = [ 'txt', 'doc', 'docx' ];
+      var audioExt = [ 'mp3', 'wav' ];
+      var videoExt = [ 'mpeg', 'mp4', 'avg' ];
+      var fileType = FILE_ICON_CLASSES.GENERIC;
+      if (imgExt.indexOf(ext) !== -1) {
+        fileType = FILE_ICON_CLASSES.IMAGE;
+      }
+      if (textExt.indexOf(ext) !== -1) {
+        fileType = FILE_ICON_CLASSES.TEXT;
+      }
+      if (audioExt.indexOf(ext) !== -1) {
+        fileType = FILE_ICON_CLASSES.AUDIO;
+      }
+      if (videoExt.indexOf(ext) !== -1) {
+        fileType = FILE_ICON_CLASSES.VIDEO;
+      }
+      return fileType;
     };
 
     $scope.upload = function(isFile) {
