@@ -10,6 +10,7 @@
   <!-- root node -->
   <div class="ms-root" ui-view="">
   </div>
+  <ms-loader ng-show="$loader.isLoading" />
   <!-- /root node -->
 
   <script>
@@ -37,6 +38,7 @@
   <script src="scripts/controllers/manage_private_data_controller.js" charset="utf-8"></script>
 
   <!-- Directives -->
+  <script src="scripts/directives/loader.js" charset="utf-8"></script>
   <script src="scripts/directives/explorer.js" charset="utf-8"></script>
   <script src="scripts/directives/progress.js" charset="utf-8"></script>
 </body>

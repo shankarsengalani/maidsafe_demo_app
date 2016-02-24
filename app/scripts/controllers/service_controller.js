@@ -1,21 +1,20 @@
 /**
  * Service controller
  */
-window.maidsafeDemo.controller('ServiceCtrl', [ '$scope', '$state', 'safeApiFactory', function($scope, $state, safe) {
+window.maidsafeDemo.controller('ServiceCtrl', [ '$scope', '$state', '$rootScope', 'safeApiFactory', function($scope, $state, $rootScope, safe) {
   'use strict';
   $scope.serviceList = [];
   $scope.newService = null;
   $scope.newServicePath = '/public';
   $scope.progressIndicator = null;
 
-  var longName = safe.getUserLongName();
-
-  // TODO refactor redundancy
-  $scope.getUserLongName = safe.getUserLongName;
+  $scope.longName = safe.getUserLongName();
 
   // get services
   $scope.getServices = function() {
+    $rootScope.$loader.show();
     safe.getDns(function(err, res) {
+      $rootScope.$loader.hide();
       if (err) {
         return console.error(err);
       }
@@ -31,6 +30,7 @@ window.maidsafeDemo.controller('ServiceCtrl', [ '$scope', '$state', 'safeApiFact
           });
         });
       };
+      $rootScope.$loader.show();
       res.forEach(function(longName) {
         safe.getServices(longName, function(err, services) {
           if (err) {
@@ -43,6 +43,7 @@ window.maidsafeDemo.controller('ServiceCtrl', [ '$scope', '$state', 'safeApiFact
           addServices(longName, services);
         });
       });
+      $rootScope.$loader.hide();
       console.log(res);
     });
   };
@@ -50,6 +51,9 @@ window.maidsafeDemo.controller('ServiceCtrl', [ '$scope', '$state', 'safeApiFact
   // create service
   $scope.createService = function() {
     console.log($scope);
+    if (!$scope.longName) {
+      return console.error('Create your Public ID to register a service');
+    }
     if (!$scope.serviceName) {
       return console.error('Provide valid service name');
     }
@@ -59,7 +63,7 @@ window.maidsafeDemo.controller('ServiceCtrl', [ '$scope', '$state', 'safeApiFact
 
   // explorer init
   $scope.explorerInit = function() {
-    $scope.newService = $state.params.serviceName + '.' + longName + '.safenet';
+    $scope.newService = $state.params.serviceName + '.' + $scope.longName + '.safenet';
   };
 
   // set target folder
@@ -68,7 +72,7 @@ window.maidsafeDemo.controller('ServiceCtrl', [ '$scope', '$state', 'safeApiFact
   };
 
   $scope.publishService = function() {
-    safe.addService(longName, $state.params.serviceName, false, $scope.newServicePath, function(err, res) {
+    safe.addService($scope.longName, $state.params.serviceName, false, $scope.newServicePath, function(err, res) {
       if (err) {
         console.error(err);
         return;
@@ -91,14 +95,20 @@ window.maidsafeDemo.controller('ServiceCtrl', [ '$scope', '$state', 'safeApiFact
       if (folders.length === 0) {
         return;
       }
+      $rootScope.$loader.show();
       var serviceName = $state.params.serviceName;
       // TODO instead of binding uploader to window use require
       var uploader = new window.uiUtils.Uploader(safe);
       var progress = uploader.upload(folders[0], false, '/public/' + serviceName);
       progress.onUpdate = function() {
+        if ($rootScope.$loader.isLoading) {
+          $rootScope.$loader.hide();
+        }
         var progressCompletion = (((progress.completed + progress.failed) / progress.total) * 100);
         if (progressCompletion === 100) {
-          safe.addService(safe.getUserLongName(), serviceName, false, '/public/' + serviceName, function(err) {
+          $rootScope.$loader.show();
+          safe.addService($scope.longName, serviceName, false, '/public/' + serviceName, function(err) {
+            $rootScope.$loader.hide();
             if (err) {
               console.error(err);
               alert('Service could not b created');

@@ -15,4 +15,15 @@ window.maidsafeDemo = angular
 .run([ '$rootScope', '$state', '$stateParams', function($rootScope, $state, $stateParams) {
   $rootScope.$state = $state;
   $rootScope.$stateParams = $stateParams;
+  $rootScope.$loader = {
+    isLoading: false,
+    show: function() {
+      this.isLoading = true;
+      $rootScope.$applyAsync();
+    },
+    hide: function() {
+      this.isLoading = false;
+      $rootScope.$applyAsync();
+    }
+  };
 } ]);

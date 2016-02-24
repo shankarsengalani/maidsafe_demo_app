@@ -1,7 +1,7 @@
 /**
  * Public ID controller
  */
-window.maidsafeDemo.controller('PublicIdCtrl', [ '$scope', 'safeApiFactory', function($scope, safe) {
+window.maidsafeDemo.controller('PublicIdCtrl', [ '$scope', '$rootScope', 'safeApiFactory', function($scope, $rootScope, safe) {
   'use strict';
   $scope.publicId = '';
   $scope.longName = null;
@@ -17,11 +17,9 @@ window.maidsafeDemo.controller('PublicIdCtrl', [ '$scope', 'safeApiFactory', fun
     if (!$scope.publicId) {
       return console.error('Please enter a valid Public ID');
     }
-    var confirm = window.confirm('Your public ID is ' + $scope.publicId);
-    if (!confirm) {
-      return;
-    }
+    $rootScope.$loader.show();
     safe.createPublicId($scope.publicId, function(err, res) {
+      $rootScope.$loader.hide();
       if (err) {
         return console.log(err);
       }

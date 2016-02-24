@@ -20,9 +20,6 @@
       <div class="form-grp lgt">
         <input type="text" name="service" required="required" placeholder="Service" ng-model="serviceName">
       </div>
-      <!-- <div class="form-grp-btn">
-
-      </div> -->
     </form>
   </div><!-- create public ID form -->
   <!-- content 1 -->
@@ -32,7 +29,7 @@
     </p>
   </div><!-- /content 1 -->
   <div class="service-preview">
-    <span class="service-preview-ctx">{{ serviceName ? serviceName : 'demo' }}.{{getUserLongName()}}.safenet</span>
+    <span class="service-preview-ctx">{{ (serviceName ? serviceName : 'demo') + '.' + longName + '.safenet' }}</span>
   </div>
   <div class="container-1 text-center">
     <button type="submit" class="ms-btn ms-primary-btn" form="create_service" name="submitService">Next</button>
